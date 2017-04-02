@@ -9,25 +9,17 @@ if (!file_exists($checkpath)) {
   exit;
 }
 
-if (file_exists($checkpath."app/etc/local.xml")) {
+if (file_exists($checkpath."/app/Mage.php")) {
   #Should be a magento 1 install
-  if (!file_exists($checkpath."/app/Mage.php")) {
-    echo "Could not find Mage.php, is this a magento install?\n";
-    exit;
-  } else {
-    require $checkpath."/app/Mage.php";
-    $version = Mage::getVersion();
-  }
+  require $checkpath."/app/Mage.php";
+  $version = Mage::getVersion();
 } else if (file_exists($checkpath."app/etc/env.php")) {
-  if (!file_exists($checkpath."/app/bootstrap.php")) {
-    echo "Could not find Mage.php, is this a magento install?\n";
-    exit;
-  } else {
-    require $checkpath."/app/bootstrap.php";
-    $version = \Magento\Framework\AppInterface::VERSION;
-  }
+  #should be a magento 2 install
+  require $checkpath."/app/bootstrap.php";
+  $version = \Magento\Framework\AppInterface::VERSION;
 } else {
-  echo "Could not determine Magento major version, is this a magento install?\n";
+  echo "Could not determine Magento version, is this a magento install?\n";
+  exit;
 }
 
 $json = file_get_contents($checksumurl.'checksum-'.$version.'.json');

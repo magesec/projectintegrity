@@ -28,15 +28,19 @@ $json = file_get_contents($checksumurl.'checksum-'.$version.'.json');
 
 if (!$json) {
   print "Could not find checksum file for this version of magento\n";
-  exit;
+
 }
 
 $checks = json_decode($json);
 
 foreach ($checks as $file=>$goodsha) {
-  $filesha = sha1_file($checkpath."/".$file);
-  if ($filesha != $goodsha) {
-    print $file.' has been modified.'."\n";
+  if (file_exists($checkpath."/".$file)) {
+    $filesha = sha1_file($checkpath."/".$file);
+    if ($filesha != $goodsha) {
+      print $file.' has been modified.'."\n";
+    }
+  } else {
+    print $file.' was not found.'."\n";
   }
 }
 ?>

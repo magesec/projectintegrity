@@ -13,16 +13,23 @@ if (file_exists($checkpath."/app/Mage.php")) {
   #Should be a magento 1 install
   require $checkpath."/app/Mage.php";
   $version = Mage::getVersion();
-} else if (file_exists($checkpath."app/etc/env.php")) {
+} else if (file_exists($checkpath."/app/bootstrap.php")) {
   #should be a magento 2 install
-  require $checkpath."/app/bootstrap.php";
-  $version = \Magento\Framework\AppInterface::VERSION;
+  $composerjson = file_get_contents($checkpath."/composer.json");
+  $composerjson = str_replace('magento/product-community-edition','version',$composerjson);
+  $composer = json_decode($composerjson);
+  $version = $composer->require->version;
 } else {
   echo "Could not determine Magento version, is this a magento install?\n";
   exit;
 }
 
 $json = file_get_contents($checksumurl.'checksum-'.$version.'.json');
+
+if (!$json) {
+  print "Could not find checksum file for this version of magento\n";
+  exit;
+}
 
 $checks = json_decode($json);
 

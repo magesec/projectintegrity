@@ -5,6 +5,6 @@ The Mage Project Integrity Checker checks a magento install for modified core fi
 
 The mageintegriycheck.php file is the only requirement to use.
 
-Usage: php mageintegriycheck.php <path to magento root>
+Usage: `php mageintegriycheck.php <path to magento root>`
 
 Any modified core file will be returned.

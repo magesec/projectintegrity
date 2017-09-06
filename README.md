@@ -8,3 +8,5 @@ The mageintegriycheck.php file is the only requirement to use.
 Usage: php mageintegriycheck.php <path to magento root>
 
 Any modified core file will be returned.
+
+Updated 9/6/17: Added support for latest magento versions
